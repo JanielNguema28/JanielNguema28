@@ -1,1 +1,115 @@
+# create a patient info entry window
+import tkinter as tk
+from tkinter import messagebox
+from tkinter import ttk
+from tkcalendar import Calendar
+
+window = tk.Tk()  # window creation
+
+# title for the window
+Title = window.title('Registration des patients')
+
+# frame inside the window
+frame = tk.Frame(window)
+frame.pack()
+
+# title for the frame inside the frame
+Patient_info_frame = tk.LabelFrame(frame, text='Patient information')
+Patient_info_frame.grid(column=0, row=0, padx=20, pady=10)
+
+# Fist name
+first_name_label = tk.Label(Patient_info_frame, text='Prenom')
+first_name_label.grid(column=0, row=0)
+first_name_entry = tk.Entry(Patient_info_frame)
+first_name_entry.grid(column=0, row=1)
+
+# Last name
+Last_name_label = tk.Label(Patient_info_frame, text='Nom')
+Last_name_label.grid(column=1, row=0)
+Last_name_entry = tk.Entry(Patient_info_frame)
+Last_name_entry.grid(column=1, row=1)
+
+# Sex
+Sex_label = tk.Label(Patient_info_frame, text='Sex')
+Sex_label.grid(column=2, row=0)
+Sex_combobox = tk.ttk.Combobox(Patient_info_frame, values=['Male', 'Female'])
+# Sex_entry = tk.Entry(Patient_info_frame) This code can be if we want to enter ourselves
+Sex_combobox.grid(column=2, row=1)
+
+# Date fo birth ( if we want to put the date of birth instead of the age )
+# Date_of_birth_label = tk.Label(Patient_info_frame, text='Date de naissance')
+# Date_of_birth_label.grid(column=0, row=2)
+# Date_of_birth_entry = tk.Entry(Patient_info_frame)
+# Date_of_birth_calendar = Calendar(Date_of_birth_entry, selectmode='day', date_pattern='mm/dd/yyyy')
+# Date_of_birth_calendar.grid(column=0, row=0)
+
+# Age
+Age_label = tk.Label(Patient_info_frame, text='Age')
+Age_label.grid(column=0, row=2)
+Age_spinbox = tk.Spinbox(Patient_info_frame, from_=0, to=100)
+Age_spinbox.grid(column=0, row=3)
+
+# Address
+Address_label = tk.Label(Patient_info_frame, text='Lieu de residence')
+Address_label.grid(column=1, row=2)
+Address_entry = tk.Entry(Patient_info_frame)
+Address_entry.grid(column=1, row=3)
+
+# Nationality
+Nationality_label = tk.Label(Patient_info_frame, text='Nationalite')
+Nationality_label.grid(column=2, row=2)
+Nationality_entry = tk.Entry(Patient_info_frame)
+Nationality_entry.grid(column=2, row=3)
+
+# Put all the widgets in the same size and well aligned
+for widget in Patient_info_frame.winfo_children():
+    widget.grid_configure(padx=10, pady=5)
+
+# Frame for the reason of your visit
+visit_reason_frame = tk.LabelFrame(frame, text='Raisons de visite')
+visit_reason_frame.grid(column=0, row=1, sticky='news', padx=20, pady=10)
+
+# Text area box for reason of visit
+Text_area = tk.Text(visit_reason_frame, height=5, width=56, padx=5, pady=2.5)
+Text_area.grid(column=0, row=0)
+
+# User's  agreement for terms and conditions frame
+agreement_frame = tk.LabelFrame(frame, text="Patient consentement aux termes et conditions d'utilisations.")
+agreement_frame.grid(column=0, row=2, sticky='news', padx=20, pady=10)
+
+# check box
+agreement_var = tk.StringVar(value='User did not agree')  # we assign a value to the check
+check_box = tk.Checkbutton(agreement_frame, variable=agreement_var, onvalue='User agreed',
+                           offvalue='User did not agree')
+check_box.grid(column=0, row=0)
+
+# Label for agreement
+agreement_label = tk.Label(agreement_frame, text="J'accepte les termes et conditions d'utilisations.")
+agreement_label.grid(column=1, row=0)
+
+
+# function that will be triggered when the button is pressed, and it will be used in another window
+def Enregistrement():
+    agree = agreement_var.get()
+    if agree == 'User agreed':
+
+        first_name = first_name_entry.get()
+        last_name = Last_name_entry.get()
+        sex = Sex_combobox.get()
+        age = Age_spinbox.get()
+        residence = Address_entry.get()
+        nationalite = Nationality_entry.get()
+        symptomes = Text_area.get('1.0', 'end')
+
+        print(sex)
+        print(residence)
+    else:
+        Error_message = tk.messagebox.showwarning(title="Error", message="Acceptez les termes et conditions")
+
+
+# Registered button
+register_button = tk.Button(frame, text='Enregistrement', command=Enregistrement)
+register_button.grid(column=0, row=3, sticky='news', padx=20, pady=10)
+
+window.mainloop()
 
